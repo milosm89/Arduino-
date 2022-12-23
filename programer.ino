@@ -1,6 +1,9 @@
 /*
- Wash machine programer sketch for Arduino writr in C++.
+ Wash machine programer sketch for Arduino.
  This is a simply illustration of wash machine prgramer.
+ Used serial monitor to input data.
+ Language: C++
+ Vesrion 1.0.0
 */
 
 int E12 = 3;
@@ -188,9 +191,17 @@ void centrifuge(int j, int min, int max, int speed) {
 
     if(j >= min && j <= max) {
         
+        int fadeIn = speed/2 + j;
         digitalWrite(pin1, LOW);
         digitalWrite(pin2, HIGH);
-        analogWrite(E12, speed);
+        if (fadeIn < speed)
+        {
+            analogWrite(E12, fadeIn);
+        }
+        else
+        {
+            analogWrite(E12, speed);
+        }
         delay(1000);
     }
 }
@@ -207,9 +218,9 @@ void secondLoop(int speed) {
             //Water Out
             waterOut(j, 40, 70);
             //Centrifuge
-            centrifuge(j, 50, 65, speed);
+            centrifuge(j, 47, 65, speed);
             //Roation
-            rotate(j, 72, 80);  
+            rotate(j, 68, 78);  
     }
     //Finish message    
     Serial.println("Program finished!");
@@ -227,7 +238,7 @@ void degres_30(int max, int speed) {
                 //Water in
                 waterIn(j);
                 //Ratation
-                rotate(j, 5, 62); 
+                rotate(j, 5, 59); 
                 //Heater
                 heater(j, 15, 25);
                 //Water Out
@@ -261,9 +272,9 @@ void degres_60(int max, int speed) {
                 //Water Out
                 waterOut(j, 90, 145);
                 //Centrifuge
-                centrifuge(j, 100, 135, 24);
+                centrifuge(j, 92, 130, speed);
                 //Roation
-                rotate(j, 140, 150);
+                rotate(j, 132, 150);
             }
         }else {
             
@@ -283,13 +294,13 @@ void degres_90(int max, int speed) {
                //Water in
                 waterIn(j);
                 //Ratation
-                rotate(j, 5, 135); 
+                rotate(j, 5, 142); 
                 //Heater
                 heater(j,15, 75);
                 //Water Out
                 waterOut(j, 140, 180);
                 //Centrifuge
-                centrifuge(j, 120, 170, 24);
+                centrifuge(j, 145, 170, speed);
                 //Roation
                 rotate(j, 175, 195);
             }
